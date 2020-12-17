@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<launch>
+    <!-- Launch Gazebo Arm and Controller  -->
+    <include file="$(find robot_arm_gazebo)/launch/sim_robot_arm_trajectory_control.launch" />
+
+    <!-- moveit launch file -->
+    <include file="$(find robot_moveit)/launch/move_group.launch">
+        <arg name="publish_monitored_planning_scene" value="true" />
+    </include>
+
+    <include file="$(find robot_moveit)/launch/moveit_rviz.launch"/>
+
+    <!-- publish joint states -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="/use_gui" value="false"/>
+        <rosparam param="/source_list">[/move_group/fake_controller_joint_states]</rosparam>
+    </node>
+</launch>

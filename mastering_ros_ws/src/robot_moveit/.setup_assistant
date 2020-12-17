@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: robot_description
+    relative_path: urdf/seven_dof_arm.urdf.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/seven_dof_arm.srdf
+  CONFIG:
+    author_name: Antonio Brandi
+    author_email: antonio.brandi@outlook.it
+    generated_timestamp: 1608193717

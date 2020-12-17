@@ -1,0 +1,27 @@
+<launch>
+ 
+  <!-- Launch the world and spawn the robot -->
+  <include file="$(find robot_arm_gazebo)/launch/robot_arm_world.launch">
+    <arg name="model" value="$(find robot_description)/urdf/seven_dof_arm.urdf.xacro" />
+  </include>
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find robot_arm_gazebo)/config/robot_arm_trajectory_control.yaml" command="load"/>
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find robot_arm_gazebo)/config/robot_arm_joint_state_controller.yaml" command="load"/>
+
+  <node name="joint_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+		output="screen" ns="/robot_arm" args="joint_state_controller" />
+
+  <!-- load the controllers -->
+  <node name="trajectory_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen" ns="/robot_arm" args="arm_controller
+					  gripper_controller"/>
+
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+    <remap from="/joint_states" to="/robot_arm/joint_states" />
+  </node>
+
+</launch>
