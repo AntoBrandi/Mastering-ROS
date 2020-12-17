@@ -1,0 +1,9 @@
+<launch>
+
+    <include file="$(find robot_mobile_gazebo)/launch/sim_robot_mobile_world.launch"/>
+
+    <include file="$(find robot_navigation)/launch/gmapping.launch"/>
+
+    <node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find robot_navigation)/rviz/navigation.rviz"/>
+
+</launch>
